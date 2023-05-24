@@ -97,8 +97,8 @@ class AllProductsSection extends Component {
     const {
       activeOptionId,
       activeCategoryId,
-      activeRatingId,
       searchInput,
+      activeRatingId,
     } = this.state
 
     const apiUrl = `https://apis.ccbp.in/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`
@@ -130,31 +130,35 @@ class AllProductsSection extends Component {
     }
   }
 
-  enterSearchInput = () => {
-    this.getProducts()
+  changeSortby = activeOptionId => {
+    this.setState({activeOptionId}, this.getProducts)
   }
 
-  changeSearchInput = searchInput => {
-    this.setState({searchInput})
-  }
-
-  changeCateogry = activeCategoryId => {
-    this.setState({activeCategoryId}, this.getProducts)
+  clearFilters = () => {
+    this.setState(
+      {
+        searchInput: '',
+        activeCategoryId: '',
+        activeRatingId: '',
+      },
+      this.getProducts,
+    )
   }
 
   changeRating = activeRatingId => {
     this.setState({activeRatingId}, this.getProducts)
   }
 
-  changeSortby = activeOptionId => {
-    this.setState({activeOptionId}, this.getProducts)
+  changeCategory = activeCategoryId => {
+    this.setState({activeCategoryId}, this.getProducts)
   }
 
-  clearFilter = () => {
-    this.setState(
-      {activeCategoryId: '', activeRatingId: '', searchInput: ''},
-      this.getProducts,
-    )
+  enterSearchInput = () => {
+    this.getProducts()
+  }
+
+  changeSearchInput = searchInput => {
+    this.setState({searchInput})
   }
 
   renderFailureView = () => (
@@ -243,7 +247,7 @@ class AllProductsSection extends Component {
           activeRatingId={activeRatingId}
           changeCategory={this.changeCategory}
           changeRating={this.changeRating}
-          clearFilter={this.clearFilter}
+          clearFilters={this.clearFilters}
         />
 
         {this.renderAllProducts()}
